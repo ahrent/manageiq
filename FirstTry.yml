@@ -1,0 +1,29 @@
+---
+- name: Create VM from template
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: no
+  tasks:
+  - name: win:create a VM from template (this can take a while)
+    vmware_guest:
+      hostname: "{{VCENTER_HOSTNAME}}"
+      username: "{{VCENTER_USERNAME}}"
+      password: "{{VCENTER_PASSWORD}}"
+      validate_certs: no
+      datacenter: "msg-test" 
+      cluster: "Cluster01"   
+      folder: "/ahrent/Self-Service"             
+      name: msas1000l
+      template: Win2019_STD
+      hardware: 
+          num_cpus: 2
+          memory_mb: 8
+      networks:
+        - name: VLAN1301_10.7.75.0/24      
+          type: dhcp
+          start_connected: true
+      wait_for_ip_address: yes
+      state: poweredon
+    register: deployedvm
+  - meta: end_play
