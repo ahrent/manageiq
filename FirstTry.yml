@@ -14,15 +14,26 @@
       datacenter: "msg-test" 
       cluster: "Cluster01"   
       folder: "/ahrent/Self-Service"             
-      name: msas1000l
-      template: Win2019_STD
+      name: "{{HOSTNAME}}"
+      template: DHCP_WIN2019
       hardware: 
-          num_cpus: 2
-          memory_mb: 8
+          num_cpus: 1
+          memory_mb: 8192
       networks:
         - name: VLAN1301_10.7.75.0/24      
           type: dhcp
           start_connected: true
+      customization:
+        hostname: "{{HOSTNAME}}"
+        dns_servers: 
+        - 194.99.56.219
+        timezone: 110
+        domain: "{{DOMAIN_NAME}}"
+        password: "{{LOCAL_ADM_PW}}"
+        joindomain: "{{DOMAIN_NAME}}"
+        domainadmin: "{{DOMAIN_ADMIN}}"
+        domainadminpassword: "{{VCENTER_PASSWORD}}"
+      wait_for_customization: yes
       wait_for_ip_address: yes
       state: poweredon
     register: deployedvm
