@@ -4,6 +4,8 @@
   connection: local
   become: false
   gather_facts: no
+  vars:
+     vm_name: msas
   tasks:
   - name: win:create a VM from template (this can take a while)
     vmware_guest:
@@ -14,7 +16,7 @@
       datacenter: "msg-test" 
       cluster: "Cluster01"   
       folder: "/ahrent/Self-Service"             
-      name: "{{vmname}}"
+      name: "{{vm_name}}"
       template: DHCP_WIN2019
       hardware: 
           num_cpus: 2
@@ -24,7 +26,7 @@
           type: dhcp
           start_connected: true
       customization:
-        hostname: "{{vmname}}"
+        hostname: "{{vm_name}}"
         dns_servers: 
         - 194.99.56.219
         timezone: 110
@@ -37,6 +39,4 @@
       wait_for_ip_address: yes
       state: poweredon
     register: deployedvm
-  - debug:
-      msg: ^^
   - meta: end_play
