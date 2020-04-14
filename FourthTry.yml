@@ -6,7 +6,8 @@
   gather_facts: no
   vars:
      vm_name:
-     numcpus: 
+     num_cpus:
+     ram_size:
   tasks:
   - name: win:create a VM from template (this can take a while)
     vmware_guest:
@@ -20,8 +21,8 @@
       name: "{{vm_name}}"
       template: DHCP_WIN2019
       hardware: 
-          num_cpus: "{{numcpus}}"
-          memory_mb: 8192
+          num_cpus: "{{num_cpus}}"
+          memory_mb: "{{ram_size}}"
       networks:
         - name: VLAN1301_10.7.75.0/24      
           type: dhcp
