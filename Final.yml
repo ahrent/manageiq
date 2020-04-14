@@ -23,6 +23,8 @@
       template: DHCP_WIN2019
       disk:
         - size_gb: "{{disk_size}}"
+          type: thin
+          datastore: FC1916_Storage-Cluster01
       hardware: 
           num_cpus: "{{num_cpus}}"
           memory_mb: "{{ram_size}}"
