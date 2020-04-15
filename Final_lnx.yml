@@ -19,7 +19,7 @@
       datacenter: "msg-test" 
       cluster: "Cluster01"   
       folder: "/ahrent/Self-Service"             
-      name: "{{vm_name}"
+      name: "{{vm_name}}"
       template: DHCP_SLES12_SP3_64
       disk:
         - size_gb: "{{disk_size}}"
