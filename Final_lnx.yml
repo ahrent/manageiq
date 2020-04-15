@@ -4,8 +4,13 @@
   connection: local
   become: false
   gather_facts: no
+  vars:
+     vm_name:
+     num_cpus:
+     ram_size:
+     disk_size:
   tasks:
-  - name: lnx:create a VM from template (this can take a while)
+  - name: win:create a VM from template (this can take a while)
     vmware_guest:
       hostname: "{{VCENTER_HOSTNAME}}"
       username: "{{VCENTER_USERNAME}}"
@@ -14,18 +19,29 @@
       datacenter: "msg-test" 
       cluster: "Cluster01"   
       folder: "/ahrent/Self-Service"             
-      name: "{{HOSTNAME_LNX}}"
-      template: SLES12_SP3_64
+      name: "{{vm_name}}"
+      template: DHCP_WIN2019
+      disk:
+        - size_gb: "{{disk_size}}"
+          type: thin
+          datastore: FC1916_Storage-Cluster01
       hardware: 
-          num_cpus: 2
-          memory_mb: 4096
+          num_cpus: "{{num_cpus}}"
+          memory_mb: "{{ram_size}}"
       networks:
         - name: VLAN1301_10.7.75.0/24      
           type: dhcp
           start_connected: true
       customization:
-        hostname: "{{HOSTNAME_LNX}}"
+        hostname: "{{vm_name}}"
+        dns_servers: 
+        - 194.99.56.219
         timezone: 110
+        domain: "{{DOMAIN_NAME}}"
+        password: "{{LOCAL_ADM_PW}}"
+        joindomain: "{{DOMAIN_NAME}}"
+        domainadmin: "{{DOMAIN_ADMIN}}"
+        domainadminpassword: "{{VCENTER_PASSWORD}}"
       wait_for_customization: yes
       wait_for_ip_address: yes
       state: poweredon
