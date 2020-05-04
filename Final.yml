@@ -1,9 +1,8 @@
 ---
 - name: Create VM from template
-  hosts: localhost
-  connection: local
-  become: false
-  gather_facts: no
+# Variablen, dessen Werte vom Endbenutzer im Self Service Katalog 
+# gesetzt werden werden klein geschrieben: "{{vm_name}}"
+# Variablen die im Inventory definiert sind werden groß geschrieben: "{{VCENTER_HOSTNAME}}"
   vars:
      vm_name:
      num_cpus:
